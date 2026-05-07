@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://helixoriginator.github.io/Sanatana-Knowledge-Bank-/sitemap.xml
