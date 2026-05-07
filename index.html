@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanatana Knowledge Bank — The Ultimate Civilizational Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-hover: #222230;
+            --border: #2a2a3a;
+            --border-light: #3a3a4a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6a6a80;
+            --accent-gold: #d4a853;
+            --accent-gold-light: #e8c87a;
+            --accent-gold-dark: #b8923e;
+            --accent-orange: #e07b39;
+            --accent-red: #c45c4a;
+            --accent-teal: #4a9e9e;
+            --accent-purple: #8b6bb8;
+            --accent-green: #5a9e6a;
+            --glow-gold: rgba(212, 168, 83, 0.15);
+            --glow-teal: rgba(74, 158, 158, 0.12);
+            --gradient-hero: linear-gradient(135deg, #0a0a0f 0%, #1a1020 50%, #0f1a20 100%);
+            --gradient-gold: linear-gradient(135deg, #d4a853 0%, #e8c87a 50%, #d4a853 100%);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-gold); }
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10, 10, 15, 0.85); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 0 2rem;
+        }
+        .nav-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between; height: 64px;
+        }
+        .nav-logo {
+            font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 800;
+            color: var(--accent-gold); text-decoration: none;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .nav-logo::before { content: "\u0950"; font-size: 1.6rem; color: var(--accent-gold); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;
+            font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+            transition: color 0.3s; position: relative;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+            background: var(--accent-gold); transition: width 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-gold); }
+        .nav-links a:hover::after { width: 100%; }
+        .hero {
+            min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: var(--gradient-hero); position: relative; overflow: hidden;
+            padding: 6rem 2rem 4rem;
+        }
+        .hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(212, 168, 83, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, rgba(74, 158, 158, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-content { text-align: center; max-width: 900px; position: relative; z-index: 1; }
+        .hero-om { font-size: 4rem; color: var(--accent-gold); margin-bottom: 1.5rem; opacity: 0.8; animation: pulse 3s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.05); } }
+        .hero h1 {
+            font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem;
+            background: var(--gradient-gold); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem; font-weight: 300; letter-spacing: 0.02em; }
+        .hero-desc { font-size: 1rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 3rem; line-height: 1.8; }
+        .hero-stats {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem; max-width: 800px; margin: 0 auto 3rem;
+        }
+        .stat-item { text-align: center; padding: 1.5rem; background: rgba(26, 26, 36, 0.6); border: 1px solid var(--border); border-radius: 12px; backdrop-filter: blur(10px); }
+        .stat-number { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 800; color: var(--accent-gold); display: block; }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.5rem; }
+        .scroll-indicator { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.8rem; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+        .section { padding: 5rem 2rem; max-width: 1400px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-tag {
+            display: inline-block; padding: 0.4rem 1rem; background: rgba(212, 168, 83, 0.1);
+            border: 1px solid rgba(212, 168, 83, 0.3); border-radius: 20px;
+            color: var(--accent-gold); font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem;
+        }
+        .section h2 { font-family: 'Cinzel', serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; color: var(--text-primary); margin-bottom: 1rem; }
+        .section-desc { color: var(--text-secondary); max-width: 700px; margin: 0 auto; font-size: 1.05rem; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 2rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;
+        }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-gold); opacity: 0; transition: opacity 0.4s; }
+        .card:hover { transform: translateY(-4px); border-color: var(--border-light); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 60px var(--glow-gold); }
+        .card:hover::before { opacity: 1; }
+        .card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.5rem; background: rgba(212, 168, 83, 0.1); color: var(--accent-gold); }
+        .card h3 { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem; }
+        .card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+        .card-meta { display: flex; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .card-meta span { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem; }
+        .pillars-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .pillar { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; text-align: center; transition: all 0.4s; position: relative; }
+        .pillar-number { font-family: 'Cinzel', serif; font-size: 3rem; font-weight: 800; color: var(--accent-gold); opacity: 0.3; position: absolute; top: 1rem; right: 1.5rem; }
+        .pillar-icon { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .pillar h3 { font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; }
+        .pillar p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+        .pillar .shloka { margin-top: 1.5rem; padding: 1rem; background: rgba(212, 168, 83, 0.05); border-radius: 8px; border-left: 3px solid var(--accent-gold); }
+        .pillar .shloka-text { font-family: 'Noto Serif Devanagari', serif; font-size: 1rem; color: var(--accent-gold-light); font-style: italic; }
+        .pillar .shloka-source { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; }
+        .table-container { overflow-x: auto; border-radius: 16px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th { background: var(--bg-secondary); padding: 1rem 1.5rem; text-align: left; font-weight: 600; color: var(--accent-gold); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; border-bottom: 2px solid var(--border); }
+        td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+        tr:hover td { background: rgba(212, 168, 83, 0.03); }
+        tr.highlight td { background: rgba(212, 168, 83, 0.08); color: var(--text-primary); font-weight: 500; }
+        .quote-block { background: var(--bg-secondary); border-left: 4px solid var(--accent-gold); padding: 2rem 2.5rem; margin: 3rem 0; border-radius: 0 12px 12px 0; position: relative; }
+        .quote-block::before { content: '"'; font-family: 'Cinzel', serif; font-size: 4rem; color: var(--accent-gold); opacity: 0.3; position: absolute; top: 0.5rem; left: 1rem; line-height: 1; }
+        .quote-text { font-size: 1.15rem; color: var(--text-primary); font-style: italic; line-height: 1.8; position: relative; z-index: 1; }
+        .quote-author { margin-top: 1rem; font-size: 0.9rem; color: var(--accent-gold); font-weight: 500; }
+        .accordion { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 1rem; }
+        .accordion-header { padding: 1.25rem 1.5rem; background: var(--bg-card); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
+        .accordion-header:hover { background: var(--bg-hover); }
+        .accordion-header h4 { font-size: 1rem; font-weight: 600; color: var(--text-primary); }
+        .accordion-icon { color: var(--accent-gold); transition: transform 0.3s; }
+        .accordion.open .accordion-icon { transform: rotate(180deg); }
+        .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .accordion.open .accordion-body { max-height: 1000px; }
+        .accordion-content { padding: 1.5rem; background: var(--bg-secondary); color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8; }
+        .quiz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+        .quiz-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; transition: all 0.3s; }
+        .quiz-card:hover { border-color: var(--accent-gold); box-shadow: 0 10px 30px rgba(212, 168, 83, 0.1); }
+        .quiz-card h4 { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--text-primary); margin-bottom: 1rem; }
+        .quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
+        .quiz-option { padding: 0.75rem 1rem; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); font-size: 0.9rem; cursor: pointer; transition: all 0.3s; }
+        .quiz-option:hover { background: rgba(212, 168, 83, 0.05); border-color: var(--accent-gold); color: var(--accent-gold); }
+        .quiz-answer { margin-top: 1rem; padding: 1rem; background: rgba(90, 158, 106, 0.1); border: 1px solid rgba(90, 158, 106, 0.3); border-radius: 8px; color: var(--accent-green); font-size: 0.9rem; display: none; }
+        .quiz-answer.show { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--gradient-gold); }
+        .timeline-item { position: relative; padding-bottom: 3rem; padding-left: 2rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -2rem; top: 0.5rem; width: 12px; height: 12px; background: var(--accent-gold); border-radius: 50%; border: 3px solid var(--bg-primary); box-shadow: 0 0 0 3px var(--accent-gold-dark); }
+        .timeline-year { font-family: 'Cinzel', serif; font-size: 0.9rem; font-weight: 600; color: var(--accent-gold); margin-bottom: 0.5rem; }
+        .timeline-title { font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .timeline-desc { color: var(--text-secondary); font-size: 0.95rem; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .metric-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; text-align: center; position: relative; overflow: hidden; }
+        .metric-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: var(--gradient-gold); }
+        .metric-value { font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 800; color: var(--accent-gold); margin-bottom: 0.5rem; }
+        .metric-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .metric-change { font-size: 0.8rem; color: var(--accent-green); margin-top: 0.5rem; }
+        .footer { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 4rem 2rem 2rem; text-align: center; }
+        .footer-om { font-size: 3rem; color: var(--accent-gold); opacity: 0.5; margin-bottom: 1.5rem; }
+        .footer h3 { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--text-primary); margin-bottom: 1rem; }
+        .footer p { color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem; }
+        .footer-creator { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .footer-creator-name { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--accent-gold); font-weight: 600; }
+        .footer-creator-role { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.3rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--accent-gold); }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-stats { grid-template-columns: repeat(2, 1fr); }
+            .cards-grid { grid-template-columns: 1fr; }
+            .section { padding: 3rem 1rem; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">Sanatana Knowledge Bank</a>
+            <ul class="nav-links">
+                <li><a href="#framework">Framework</a></li>
+                <li><a href="#philosophy">Philosophy</a></li>
+                <li><a href="#governance">Governance</a></li>
+                <li><a href="#shakti">Shakti</a></li>
+                <li><a href="#defense">Defense</a></li>
+                <li><a href="#quiz">Quiz</a></li>
+                <li><a href="#ecosystem">Ecosystem</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-om">ॐ</div>
+            <h1>Sanatana Knowledge Bank</h1>
+            <p class="hero-subtitle">The Ultimate Civilizational Archive — Decolonizing Global Knowledge</p>
+            <p class="hero-desc">
+                A cross-domain integration of Rhetoric, Software Engineering, and Dharmic Philosophy — translating sacred Vedic concepts into modern systems architecture, reinstating Indian traditional knowledge as a global template for governance, sustainability, and civilizational renewal.
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">800+</span>
+                    <span class="stat-label">Knowledge Nodes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Quiz Questions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">8</span>
+                    <span class="stat-label">Digital Libraries</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">394+</span>
+                    <span class="stat-label">Live Platforms</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Scroll to Explore</span>
+            <span>↓</span>
+        </div>
+    </section>
+
+    <section class="section" id="framework">
+        <div class="section-header">
+            <span class="section-tag">The Framework</span>
+            <h2>Vedic Adaptive Framework for Global Public Ethics (VAFGPE)</h2>
+            <p class="section-desc">
+                Post-colonial governance systems face an epistemic crisis — technically functional but culturally dislocated institutions that operate without moral resonance. VAFGPE offers a third path: neither blind adoption of Western templates nor nostalgic retreat to an idealized past, but a living synthesis grounded in India's civilizational ethos.
+            </p>
+        </div>
+        <div class="pillars-grid">
+            <div class="pillar">
+                <span class="pillar-number">I</span>
+                <div class="pillar-icon">☀️</div>
+                <h3>Satya</h3>
+                <p>Truthfulness & Transparency — The foundation of all ethical governance. Operationalized through the Transparency Index, whistleblower protection mechanisms, and honest public communication standards. Where truth flows freely, trust is born.</p>
+                <div class="shloka">
+                    <p class="shloka-text">"Satyam bruyat priyam bruyat"</p>
+                    <p class="shloka-source">Speak the truth; speak pleasantly — Rigveda, 10.85.1</p>
+                </div>
+            </div>
+            <div class="pillar">
+                <span class="pillar-number">II</span>
+                <div class="pillar-icon">⚖️</div>
+                <h3>Dharma</h3>
+                <p>Righteous Duty & Public Service — The ethical compass for all public servants. Ensures policies serve collective good (Lokasangraha) rather than narrow self-interest. Measured through the Dharmic Performance and Incentive System (DPIS).</p>
+                <div class="shloka">
+                    <p class="shloka-text">"Dharmo rakshati rakshitah"</p>
+                    <p class="shloka-source">Dharma protects those who protect it — Manusmriti, 8.15</p>
+                </div>
+            </div>
+            <div class="pillar">
+                <span class="pillar-number">III</span>
+                <div class="pillar-icon">🌊</div>
+                <h3>Ṛta</h3>
+                <p>Cosmic Order & Systemic Harmony — A systems-level commitment to social, ecological, and intergenerational harmony. Governance that recognizes the interconnectedness of all actions and their broader civilizational consequences.</p>
+                <div class="shloka">
+                    <p class="shloka-text">"Vasudhaiva Kutumbakam"</p>
+                    <p class="shloka-source">The world is one family — Maha Upanishad, 6.71</p>
+                </div>
+            </div>
+        </div>
+        <div class="quote-block">
+            <p class="quote-text">These frameworks allow the ancient truths of Bharat to emerge as modern templates — not a nostalgic return to the past, but a living synthesis where civilizational wisdom becomes institutional architecture.</p>
+            <p class="quote-author">— Helix Sanatana Ecosystem: Strategic Cognitive Bridge</p>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-secondary); border-top: 1px solid var(--border);">
+        <div class="section-header">
+            <span class="section-tag">Comparative Analysis</span>
+            <h2>Global Governance Models Compared</h2>
+            <p class="section-desc">A rigorous cross-cultural analysis positioning VAFGPE as the world's first Vedic-based governance framework with constitutional integration and Dharmic performance metrics.</p>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Framework</th>
+                        <th>Geographic Scope</th>
+                        <th>Cultural Integration</th>
+                        <th>Legal Model</th>
+                        <th>Performance Metrics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Western Liberal</td>
+                        <td>Europe, North America</td>
+                        <td>Secular only</td>
+                        <td>Constitutional</td>
+                        <td>KPI-based</td>
+                    </tr>
+                    <tr>
+                        <td>Islamic Governance</td>
+                        <td>Middle East, SE Asia</td>
+                        <td>Deep, Sharia-based</td>
+                        <td>Extensive</td>
+                        <td>Compliance-based</td>
+                    </tr>
+                    <tr>
+                        <td>Confucian Governance</td>
+                        <td>East Asia</td>
+                        <td>Moderate, virtue-based</td>
+                        <td>Advisory</td>
+                        <td>Merit-based</td>
+                    </tr>
+                    <tr>
+                        <td>Ubuntu (South Africa)</td>
+                        <td>Sub-Saharan Africa</td>
+                        <td>Community-centric</td>
+                        <td>Customary law</td>
+                        <td>Collective welfare</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td><strong>VAFGPE (India)</strong></td>
+                        <td><strong>Global South / India</strong></td>
+                        <td><strong>Deep, Vedic-based</strong></td>
+                        <td><strong>Constitutional integration</strong></td>
+                        <td><strong>Dharmic-standard (DPIS)</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="section" id="governance">
+        <div class="section-header">
+            <span class="section-tag">Measurement System</span>
+            <h2>Dharmic Performance & Incentive System (DPIS)</h2>
+            <p class="section-desc">
+                The DPIS emerges from the recognition that ethical behavior in public service cannot be captured by efficiency metrics alone. Developed through Classical Test Theory (CTT) combined with Item Response Theory (IRT) and Cultural Response Theory adaptations.
+            </p>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">🧘</div>
+                <h3>Nishkama Karma Foundation</h3>
+                <p>"Karmany evadhikaras te ma phaleshu kadachana" — You have a right to perform your duty, but not to the fruits thereof. Bhagavad Gita, 2.47. The philosophical bedrock of DPIS measuring duty-bound action without attachment to outcomes.</p>
+                <div class="card-meta">
+                    <span>📖 Bhagavad Gita 2.47</span>
+                    <span>🎯 Core Principle</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Dharmic Score System (DSS)</h3>
+                <p>A weighted multi-source assessment: 20% Self-Assessment, 25% Peer 360° Feedback, 25% Supervisor Assessment, 15% Citizen Feedback, and 15% Objective Metrics. Cronbach's α ≥ 0.85 reliability standard.</p>
+                <div class="card-meta">
+                    <span>📐 Psychometric Validity</span>
+                    <span>✅ α ≥ 0.85</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🔄</div>
+                <h3>Cultural Response Theory</h3>
+                <p>First-of-its-kind adaptation of IRT that accounts for cultural context in assessment. Ensures that Dharmic values are measured authentically while meeting rigorous international psychometric standards.</p>
+                <div class="card-meta">
+                    <span>🔬 Novel Methodology</span>
+                    <span>🌍 Cross-Cultural</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <h3>Projected Impact Metrics</h3>
+                <p>VAFGPE implementation projects 40–60% corruption reduction, 55–75% public trust increase, 40,000+ specialized jobs created, and 8 digital living libraries established across governance sectors.</p>
+                <div class="card-meta">
+                    <span>📉 40-60% Corruption ↓</span>
+                    <span>📈 55-75% Trust ↑</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section pillars-section" id="philosophy">
+        <div class="section-header">
+            <span class="section-tag">Vedanta & Epistemology</span>
+            <h2>The Eight Pillars of Vedic Wisdom</h2>
+            <p class="section-desc">Deep dive into Vedic epistemology, translating pure non-dual metaphysics into frameworks actionable for modern ethics, governance, and social organization.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(139, 107, 184, 0.1); color: var(--accent-purple);">01</div>
+                <h3>Advaita Vedanta</h3>
+                <p><strong>Non-Duality — The Ultimate Teaching</strong><br>"Sarvam khalvidam brahma" — All this is indeed Brahman (Chandogya Upanishad, 3.14.1). If all existence is one divine consciousness, then all beings share the same essential nature. Discrimination based on birth becomes philosophically impossible. Caste hierarchy contradicts Advaitic realization.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(212, 168, 83, 0.1); color: var(--accent-gold);">02</div>
+                <h3>Tat Tvam Asi</h3>
+                <p><strong>The Great Declaration — Thou Art That</strong><br>"Tat tvam asi" — That divine essence is within you (Chandogya Upanishad, 6.8.7). Every being can be addressed as "That." The divine essence is identical in Brahmin, Shudra, animal, and all existence. No being is inherently superior or inferior in spiritual constitution.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(74, 158, 158, 0.1); color: var(--accent-teal);">03</div>
+                <h3>Karma Yoga</h3>
+                <p><strong>Merit-Based Spiritual Progress</strong><br>"Chaturvarnyam maya srishtam gunakarma vibhagashah" — The fourfold order was created by Me according to quality and action (Bhagavad Gita, 4.13). Varna is determined by qualities (guna) and actions (karma) — never by birth alone. Spiritual merit is earned through present action, not inherited through ancestry.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(90, 158, 106, 0.1); color: var(--accent-green);">04</div>
+                <h3>Vasudhaiva Kutumbakam</h3>
+                <p><strong>Universal Brotherhood</strong><br>"Ayam nijah paro veti ganana laghuchetasam..." — The magnanimous see the world as one family (Maha Upanishad, 6.71–73). India's foreign policy principle and the foundation for global harmony. Transcends all artificial divisions including caste, race, and nationality.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(224, 123, 57, 0.1); color: var(--accent-orange);">05</div>
+                <h3>Scriptural Equality</h3>
+                <p><strong>Foundation of Universal Spiritual Equality</strong><br>Hindu Dharma's core texts establish universal spiritual equality. The Bhagavad Gita (4.13) states varna is based on qualities and actions, not birth. The Mahabharata declares: "By birth one is a Shudra; by actions one becomes a Dvija."</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(196, 92, 74, 0.1); color: var(--accent-red);">06</div>
+                <h3>Social Mobility</h3>
+                <p><strong>Merit Was Always the Path</strong><br>Ancient examples: Valmiki (tribal hunter → Adi Kavi), Ved Vyasa (fisherman's son → compiler of Vedas), Vidura (maid's son → Prime Minister). Merit-based recognition was built into the tradition, not a modern invention.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(139, 107, 184, 0.1); color: var(--accent-purple);">07</div>
+                <h3>Colonial Distortion</h3>
+                <p><strong>British Census Rigidified Fluid Structures</strong><br>Pre-colonial India had a fluid varna system. The British census (1872–1931) crystallized flexible jatis into fixed birth-based castes for administrative convenience — applying "divide and rule" to amplify social tensions.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(74, 158, 158, 0.1); color: var(--accent-teal);">08</div>
+                <h3>Self-Correcting Capacity</h3>
+                <p><strong>Hinduism's Organic Reform</strong><br>The Bhakti movement, Arya Samaj, Ramakrishna Mission, and modern institutions like ISKCON demonstrate that internal reform is intrinsic to the Dharmic tradition — an organic civilizational response, not external imposition.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="shakti">
+        <div class="section-header">
+            <span class="section-tag">Feminine Sovereignty</span>
+            <h2>Shakti as Sovereign Wisdom</h2>
+            <p class="section-desc">Bharat's Enduring Governance Ethos — Devi embodies the enduring spirit and guiding wisdom of Bharat. She is not just a deity to be worshipped but a foundational principle to be operationalized.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(196, 92, 74, 0.1); color: var(--accent-red);">🏛️</div>
+                <h3>The Primacy of the Feminine</h3>
+                <p>Archaeological evidence from the Sindhu-Saraswati civilization reveals prevalent mother goddess figurines — establishing a deep-rooted, millennia-old veneration for feminine divinity as the source of life, protection, and civilizational order.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(212, 168, 83, 0.1); color: var(--accent-gold);">🌆</div>
+                <h3>Cities as Shakti Peethas</h3>
+                <p>Major Indian cities named after goddesses — Mumbai (Mumba Devi), Kolkata (Kalikata), Vijayawada (Kanaka Durga) — historically evolved into hubs of trade, art, and learning, demonstrating "feminine urbanism" as a civilizational pattern.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(139, 107, 184, 0.1); color: var(--accent-purple);">🌙</div>
+                <h3>Night as the Realm of Shakti</h3>
+                <p>The Samaveda's night-centric practices connect devotion, music, and feminine divine energy — reinterpreted as ancient "feminine time sovereignty," a space for autonomy and unregulated creative power.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-secondary); border-top: 1px solid var(--border);" id="defense">
+        <div class="section-header">
+            <span class="section-tag">Civilizational Defense</span>
+            <h2>Decolonizing the Dharma Narrative</h2>
+            <p class="section-desc">A systematic deconstruction of colonial narratives about caste, Manusmriti, and Hindu social structures — restoring the authentic Vedic perspective on equality, mobility, and ethical governance.</p>
+        </div>
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="accordion">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>📜 Was the Caste System Birth-Based in Vedic Times?</h4>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <strong>No.</strong> The Bhagavad Gita (4.13) explicitly states: "Chaturvarnyam maya srishtam gunakarma vibhagashah" — The fourfold order was created by Me according to quality (guna) and action (karma), never by birth (janma). The Mahabharata reinforces: "By birth one is a Shudra; by actions one becomes a Dvija." Historical evidence includes Valmiki (tribal hunter who became the Adi Kavi), Ved Vyasa (son of a fisherwoman who compiled the Vedas), and Vidura (son of a maid who became Prime Minister). The British census operations (1872–1931) deliberately rigidified these fluid structures for administrative control.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>⚖️ Is Manusmriti Anti-Women and Anti-Dalit?</h4>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <strong>Misinterpretation.</strong> Colonial scholars selectively translated and decontextualized verses to paint Manusmriti as oppressive. The text contains over 2,600 verses, with the vast majority emphasizing protection of women, respect for all varnas, and the king's duty to ensure justice for all. Verse 8.15 — "Dharmo rakshati rakshitah" (Dharma protects those who protect it) — is the foundational principle. The colonial project used ethnographic surveys to create fixed caste categories that never existed in fluid pre-colonial society.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>🔄 Did Hinduism Oppress Minorities and Tribals?</h4>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <strong>Contradicted by history.</strong> Hindu civilization integrated tribes (Vanavasi) as forest protectors and knowledge keepers. The concept of "Vasudhaiva Kutumbakam" (world is one family) predates modern multiculturalism by millennia. Tribal deities were incorporated into the Hindu pantheon (e.g., Vindhyavasini, Ayyappa). The British "divide and rule" strategy deliberately created communal categories that fueled later conflicts. India's tribal communities preserved ecological knowledge systems that modern science is only now rediscovering.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>🏛️ Was Ancient India Technologically Backward?</h4>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <strong>Evidence suggests otherwise.</strong> The Sindhu-Saraswati civilization (3300–1300 BCE) had standardized weights, advanced drainage systems, and urban planning superior to contemporary Mesopotamia. Vedic mathematics (Sulba Sutras) contained Pythagorean theorem equivalents centuries before Pythagoras. Ayurveda documented surgical procedures including rhinoplasty (Sushruta Samhita, 600 BCE). The concept of zero, decimal system, and advanced astronomy (Surya Siddhanta) emerged from this civilization. Colonial historiography systematically downplayed these achievements.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>📚 Is Sanskrit a Dead, Elite Language?</h4>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <strong>Living and scientific.</strong> Sanskrit is the only language with a fully formalized grammar (Panini's Ashtadhyayi, 4th century BCE) that is context-free and generative — properties that make it ideal for computational linguistics and AI. NASA research (Rick Briggs, 1985) identified Sanskrit as optimal for machine natural language processing. It was the lingua franca of scholars across Asia, not an elite monopoly. Today, Sanskrit is spoken in villages like Mattur (Karnataka) and Jhiri (Madhya Pradesh), and is recognized as an official language in the Indian Constitution.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <h4>🌍 Did Hinduism Lack a Concept of Human Rights?</h4>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-body">
+                    <div class="accordion-content">
+                        <strong>Universal rights are Vedic.</strong> The Taittiriya Upanishad (1.11.2) commands: "Matru devo bhava, Pitru devo bhava, Acharya devo bhava, Atithi devo bhava" — Treat mother, father, teacher, and guest as divine. The Isha Upanishad (1) declares: "Ishavasyam idam sarvam" — All this is inhabited by the Divine, implying inherent dignity of all beings. The concept of "Sarve bhavantu sukhinah" (May all beings be happy) from the Brihadaranyaka Upanishad is the world's oldest documented universal welfare prayer, predating the UN Declaration by millennia.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section quiz-section" id="quiz">
+        <div class="section-header">
+            <span class="section-tag">Knowledge Assessment</span>
+            <h2>Sanatana Knowledge Quiz Bank</h2>
+            <p class="section-desc">Test your knowledge on 500+ critical questions regarding Sanatana myths, facts, governance stack, and the deconstruction of colonial narratives about caste and Manusmriti.</p>
+        </div>
+        <div class="quiz-grid">
+            <div class="quiz-card">
+                <h4>Q1. What does "Chaturvarnyam maya srishtam gunakarma vibhagashah" mean?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="showAnswer(this, 'a')">A. The four varnas are determined by birth and family lineage</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'b')">B. The fourfold order was created according to qualities and actions, never by birth</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'c')">C. Only Brahmins can achieve spiritual liberation</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'd')">D. Caste is a modern invention with no Vedic basis</div>
+                </div>
+                <div class="quiz-answer" id="ans-q1">
+                    <strong>✓ Correct Answer: B</strong><br>
+                    Bhagavad Gita 4.13 explicitly states varna is determined by guna (qualities) and karma (actions), not janma (birth). This is the foundational scriptural evidence against birth-based caste hierarchy.
+                </div>
+            </div>
+            <div class="quiz-card">
+                <h4>Q2. Who was Ved Vyasa's mother?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="showAnswer(this, 'a')">A. A royal princess</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'b')">B. A fisherwoman (Matsyagandha)</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'c')">C. A Brahmin scholar</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'd')">D. A queen of Hastinapur</div>
+                </div>
+                <div class="quiz-answer" id="ans-q2">
+                    <strong>✓ Correct Answer: B</strong><br>
+                    Ved Vyasa, the compiler of the Vedas and author of the Mahabharata, was born to Satyavati, a fisherwoman. This is definitive proof of social mobility in ancient India — the most sacred texts were compiled by someone from a non-Brahmin background.
+                </div>
+            </div>
+            <div class="quiz-card">
+                <h4>Q3. What is the Dharmic Score System (DSS) weighting?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="showAnswer(this, 'a')">A. 100% Supervisor Assessment</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'b')">B. Equal 20% across all five components</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'c')">C. 20% Self, 25% Peer, 25% Supervisor, 15% Citizen, 15% Objective</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'd')">D. 50% Objective Metrics only</div>
+                </div>
+                <div class="quiz-answer" id="ans-q3">
+                    <strong>✓ Correct Answer: C</strong><br>
+                    DSS = [0.20 × Self + 0.25 × Peer + 0.25 × Supervisor + 0.15 × Citizen + 0.15 × Objective]. This multi-source feedback system ensures balanced, culturally authentic assessment with Cronbach's α ≥ 0.85 reliability.
+                </div>
+            </div>
+            <div class="quiz-card">
+                <h4>Q4. Which Upanishad contains "Vasudhaiva Kutumbakam"?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="showAnswer(this, 'a')">A. Chandogya Upanishad</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'b')">B. Brihadaranyaka Upanishad</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'c')">C. Maha Upanishad (6.71–73)</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'd')">D. Isha Upanishad</div>
+                </div>
+                <div class="quiz-answer" id="ans-q4">
+                    <strong>✓ Correct Answer: C</strong><br>
+                    "Ayam nijah paro veti ganana laghuchetasam..." — The magnanimous see the world as one family (Maha Upanishad, 6.71–73). This is India's foundational foreign policy principle and the basis for global harmony.
+                </div>
+            </div>
+            <div class="quiz-card">
+                <h4>Q5. What did the British Census (1872–1931) do to Indian society?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="showAnswer(this, 'a')">A. Accurately documented existing social structures</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'b')">B. Crystallized fluid jatis into fixed birth-based castes for administrative control</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'c')">C. Eliminated caste distinctions entirely</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'd')">D. Promoted inter-caste marriages</div>
+                </div>
+                <div class="quiz-answer" id="ans-q5">
+                    <strong>✓ Correct Answer: B</strong><br>
+                    Pre-colonial India had a fluid varna system. The British census deliberately crystallized flexible jatis into fixed birth-based castes for administrative convenience — applying "divide and rule" to amplify social tensions and weaken unified resistance.
+                </div>
+            </div>
+            <div class="quiz-card">
+                <h4>Q6. What is the core principle of Nishkama Karma?</h4>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="showAnswer(this, 'a')">A. Action without any purpose</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'b')">B. Action without attachment to fruits/results</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'c')">C. Complete inaction and renunciation</div>
+                    <div class="quiz-option" onclick="showAnswer(this, 'd')">D. Action only for personal gain</div>
+                </div>
+                <div class="quiz-answer" id="ans-q6">
+                    <strong>✓ Correct Answer: B</strong><br>
+                    "Karmany evadhikaras te ma phaleshu kadachana" — You have a right to perform your duty, but not to the fruits thereof (Bhagavad Gita, 2.47). This is the foundation of selfless action in public service and the philosophical bedrock of DPIS.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="ecosystem">
+        <div class="section-header">
+            <span class="section-tag">Digital Architecture</span>
+            <h2>The Helix Sanatana Ecosystem</h2>
+            <p class="section-desc">A centralized structural nexus hosting multi-disciplinary research assets. Bridges professional rhetoric with structured software system philosophies across 8 digital living libraries and 394+ live platforms.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon" style="background: rgba(139, 107, 184, 0.1); color: var(--accent-purple);">📚</div>
+                <h3>Vedas Insights, Wisdom & Philosophy</h3>
+                <p>Deep dive into Vedic epistemology, translating pure non-dual metaphysics into frameworks actionable for modern ethics, governance systems, and cognitive architecture.</p>
+                <div class="card-meta">
+                    <span>🔮 Metaphysics</span>
+                    <span>🧠 Epistemology</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(74, 158, 158, 0.1); color: var(--accent-teal);">🔬</div>
+                <h3>Kallol Research Repositories</h3>
+                <p>The centralized structural nexus hosting multi-disciplinary research assets. Bridges professional rhetoric with structured software system philosophies and decolonial frameworks.</p>
+                <div class="card-meta">
+                    <span>📊 266+ DOIs</span>
+                    <span>📥 6,000+ Downloads</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(212, 168, 83, 0.1); color: var(--accent-gold);">🏛️</div>
+                <h3>Helix Dharma Governance Stack</h3>
+                <p>A layered structural stack translating traditional concepts of Rajadharma and civil duties into frameworks for modern Indian statecraft and public administration.</p>
+                <div class="card-meta">
+                    <span>⚖️ Policy</span>
+                    <span>📜 Constitutional</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(90, 158, 106, 0.1); color: var(--accent-green);">⚛️</div>
+                <h3>Quantum Dharma Governance</h3>
+                <p>A revolutionary synthesis mapping non-dual quantum mechanics and observer theories onto complex systems of computational civic governance and AI ethics.</p>
+                <div class="card-meta">
+                    <span>🔬 Quantum</span>
+                    <span>🤖 AI Ethics</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(224, 123, 57, 0.1); color: var(--accent-orange);">🏺</div>
+                <h3>Sanatana Civilization Stack</h3>
+                <p>An operational systems design blueprint securing, nurturing, and optimizing Sanatana civilization across ecological, technological, and cognitive vectors.</p>
+                <div class="card-meta">
+                    <span>🌿 Ecology</span>
+                    <span>🧬 Civilization</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(196, 92, 74, 0.1); color: var(--accent-red);">🎭</div>
+                <h3>Bengal–Bharat Synergy</h3>
+                <p>Restoring the intellectual, spiritual, and geopolitical feedback loop between Bengal and the core of Bharat's civilizational consciousness.</p>
+                <div class="card-meta">
+                    <span>📖 Renaissance</span>
+                    <span>🎨 Culture</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(139, 107, 184, 0.1); color: var(--accent-purple);">🎓</div>
+                <h3>Sanatan Vidya Kendra</h3>
+                <p>An educational pipeline resurrecting structural Gurukul-style rigor, customized for 21st-century multi-disciplinary thinking and cognitive development.</p>
+                <div class="card-meta">
+                    <span>📚 Education</span>
+                    <span>🧠 Pedagogy</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-icon" style="background: rgba(74, 158, 158, 0.1); color: var(--accent-teal);">📜</div>
+                <h3>Bengal Renaissance</h3>
+                <p>Tracing, assessing, and reigniting the legacy of Bengal's renaissance — reclaiming scientific mysticism, literary rigor, and patriotic resurgence.</p>
+                <div class="card-meta">
+                    <span>📖 History</span>
+                    <span>🔥 Revival</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-secondary); border-top: 1px solid var(--border);">
+        <div class="section-header">
+            <span class="section-tag">Civilizational Timeline</span>
+            <h2>From Vedic Origins to Digital Renaissance</h2>
+        </div>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">3300–1300 BCE</div>
+                    <div class="timeline-title">Sindhu-Saraswati Civilization</div>
+                    <div class="timeline-desc">Advanced urban planning, standardized weights, mother goddess worship, and early Vedic culture. Archaeological evidence of feminine divinity as civilizational foundation.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1500–500 BCE</div>
+                    <div class="timeline-title">Vedic Period & Upanishadic Revolution</div>
+                    <div class="timeline-desc">Composition of Rigveda, Samaveda, Yajurveda, Atharvaveda. Emergence of Advaita Vedanta, Tat Tvam Asi, and the foundational metaphysics of universal consciousness. Panini formalizes Sanskrit grammar.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">400 BCE–400 CE</div>
+                    <div class="timeline-title">Classical Golden Age</div>
+                    <div class="timeline-desc">Mahabharata and Ramayana composed. Sushruta Samhita documents surgery. Aryabhata advances astronomy and mathematics. Nagarjuna develops Madhyamaka philosophy. Buddhist universities at Nalanda and Taxila.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">600–1200 CE</div>
+                    <div class="timeline-title">Bhakti Movement & Self-Correction</div>
+                    <div class="timeline-desc">Organic civilizational reform through Bhakti saints (Ramanuja, Basava, Mirabai, Kabir, Chaitanya). Universal access to divine devotion regardless of birth. Temple universities flourish. Shankara consolidates Advaita.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1200–1700 CE</div>
+                    <div class="timeline-title">Resistance & Continuity</div>
+                    <div class="timeline-desc">Vijayanagara Empire preserves Hindu culture. Maratha confederation under Shivaji. Gurukul systems continue. Sanskrit scholarship persists despite political disruptions. Regional literary renaissances.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1757–1947</div>
+                    <div class="timeline-title">Colonial Distortion Era</div>
+                    <div class="timeline-desc">British census (1872–1931) rigidifies fluid jatis into fixed castes. Macaulay's education system devalues indigenous knowledge. Orientalist misinterpretations of Sanskrit texts. "Divide and rule" institutionalized.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1850–1950</div>
+                    <div class="timeline-title">Bengal Renaissance</div>
+                    <div class="timeline-desc">Ramakrishna, Vivekananda, Tagore, Aurobindo, and Bankim Chandra reclaim scientific mysticism and literary rigor. Brahmo Samaj and Arya Samaj initiate internal reform. Nationalist resurgence rooted in Dharmic identity.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1947–2020</div>
+                    <div class="timeline-title">Post-Independence Reconstruction</div>
+                    <div class="timeline-desc">Constitutional integration of Dharma principles. ISKCON globalizes Bhakti. Ramakrishna Mission expands educational network. Indigenous space program (ISRO) and nuclear capability. IT revolution demonstrates civilizational adaptability.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2020–2047</div>
+                    <div class="timeline-title">Digital Dharmic Renaissance</div>
+                    <div class="timeline-desc">VAFGPE framework operationalized. 394+ live digital platforms. Helix Sanatana Ecosystem decolonizes knowledge at scale. AI-powered governance (Civic Reflexivity Engine). Quantum Dharma Governance. Viksit Bharat 2047 vision.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-header">
+            <span class="section-tag">Impact Metrics</span>
+            <h2>Ecosystem Performance Dashboard</h2>
+        </div>
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value">266+</div>
+                <div class="metric-label">Verified DOIs</div>
+                <div class="metric-change">Peer-reviewed research outputs</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">25</div>
+                <div class="metric-label">Copyrights Registered</div>
+                <div class="metric-change">Intellectual property protection</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">1</div>
+                <div class="metric-label">Provisional Patent</div>
+                <div class="metric-change">No. 202411090481</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">6,000+</div>
+                <div class="metric-label">Global Downloads</div>
+                <div class="metric-change">Zenodo, SSRN, OSF, Figshare</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">394+</div>
+                <div class="metric-label">Live Platforms</div>
+                <div class="metric-change">185 GitHub + 210+ Netlify</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">94.9%</div>
+                <div class="metric-label">Average Novelty Score</div>
+                <div class="metric-change">Across 25 DeSci articles</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">Top 4.5%</div>
+                <div class="metric-label">SSRN Global Ranking</div>
+                <div class="metric-change">Of 2.7M authors worldwide</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">4x100</div>
+                <div class="metric-label">Perfect Novelty Scores</div>
+                <div class="metric-change">Maximum possible ratings</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding: 3rem 2rem;">
+        <div class="quote-block" style="max-width: 800px; margin: 0 auto;">
+            <p class="quote-text">Atmanirbhar Bharat is not just economic self-reliance — it is intellectual sovereignty. The Sanatana Knowledge Bank represents a citizen-built ecosystem developed with zero institutional funding, designed to advance India's intellectual sovereignty and the Viksit Bharat 2047 vision.</p>
+            <p class="quote-author">— Kallol Chakrabarti, Helix Originator</p>
+        </div>
+    </section>
+
+    <section class="section" style="text-align: center; padding: 3rem 2rem;">
+        <p style="font-family: 'Noto Serif Devanagari', serif; font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 1rem;">
+            ॐ सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः<br>
+            सर्वे भद्राणि पश्यन्तु मा कश्चिद् दुःखभाग् भवेत्
+        </p>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+            May all beings be happy, may all beings be healthy,<br>
+            May all beings experience prosperity, may none suffer from misery.<br>
+            — Brihadaranyaka Upanishad
+        </p>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-om">ॐ</div>
+        <h3>Sanatana Knowledge Bank</h3>
+        <p>Decolonizing Global Knowledge — One Framework at a Time. A Living Library bridging ancient Vedic wisdom with modern systems architecture.</p>
+        <div class="footer-links">
+            <a href="https://helixoriginator.github.io/sanatana-knowledge-ecosystem/" target="_blank">Helix Ecosystem</a>
+            <a href="https://sanatana-quiz.netlify.app/" target="_blank">Sanatana Quiz</a>
+            <a href="https://sanatana-knowledge-500-questions.netlify.app/" target="_blank">500 Questions</a>
+            <a href="https://github.com/HelixOriginator" target="_blank">GitHub</a>
+        </div>
+        <div class="footer-creator">
+            <div class="footer-creator-name">Created by Kallol Chakrabarti</div>
+            <div class="footer-creator-role">Global Independent Researcher · Policy Architect · Invitee: National IP Awards 2026</div>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem;">
+                ORCID: 0009-0007-4971-8936 · HarvardX Certified in Rhetoric and Persuasive Writing<br>
+                Top 4.5% of 2.7M authors on SSRN · 266+ Verified DOIs · 25 Copyrights
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function showAnswer(element, answer) {
+            const card = element.closest('.quiz-card');
+            const answerDiv = card.querySelector('.quiz-answer');
+            const allOptions = card.querySelectorAll('.quiz-option');
+            allOptions.forEach(opt => {
+                opt.style.background = 'var(--bg-secondary)';
+                opt.style.borderColor = 'var(--border)';
+                opt.style.color = 'var(--text-secondary)';
+            });
+            const correctOption = card.querySelector('.quiz-option:nth-child(2)');
+            if (answer === 'b') {
+                element.style.background = 'rgba(90, 158, 106, 0.1)';
+                element.style.borderColor = 'var(--accent-green)';
+                element.style.color = 'var(--accent-green)';
+            } else {
+                element.style.background = 'rgba(196, 92, 74, 0.1)';
+                element.style.borderColor = 'var(--accent-red)';
+                element.style.color = 'var(--accent-red)';
+                correctOption.style.background = 'rgba(90, 158, 106, 0.1)';
+                correctOption.style.borderColor = 'var(--accent-green)';
+                correctOption.style.color = 'var(--accent-green)';
+            }
+            answerDiv.classList.add('show');
+        }
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+            });
+        });
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 50) { nav.style.background = 'rgba(10, 10, 15, 0.95)'; }
+            else { nav.style.background = 'rgba(10, 10, 15, 0.85)'; }
+        });
+    </script>
+</body>
+</html>
